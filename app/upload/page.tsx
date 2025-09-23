@@ -8,7 +8,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Badge } from "@/components/ui/badge";
 import { UploadedImage } from "@/types";
 import { ArrowLeft, ArrowRight, Camera, CheckCircle } from "lucide-react";
-import { LoadingCard, ProgressSteps, SkeletonCard } from "@/components/ui/LoadingStates";
+import { LoadingCard } from "@/components/ui/LoadingStates";
 import Link from "next/link";
 
 // Helper function to convert File to base64
@@ -29,7 +29,7 @@ const convertFileToBase64 = (file: File): Promise<string> => {
 export default function UploadPage() {
   const router = useRouter();
   const [uploadedImage, setUploadedImage] = useState<UploadedImage | null>(null);
-  const [error, setError] = useState<string | null>(null);
+  const [, setError] = useState<string | null>(null);
   const [isProcessing, setIsProcessing] = useState(false);
 
   const handleUpload = (image: UploadedImage) => {
@@ -62,7 +62,7 @@ export default function UploadPage() {
         // Store the serializable image in session storage
         sessionStorage.setItem("uploadedImage", JSON.stringify(serializableImage));
         router.push("/customize");
-      } catch (error) {
+      } catch {
         setError("Failed to process image. Please try again.");
         setIsProcessing(false);
       }
@@ -156,7 +156,7 @@ export default function UploadPage() {
                   Upload Your Photo
                 </h1>
                 <p className="text-sm sm:text-lg text-gray-600 mb-6">
-                  Choose a clear photo of yourself. Any casual photo works - we'll transform it into a professional portrait.
+                  Choose a clear photo of yourself. Any casual photo works - we&apos;ll transform it into a professional portrait.
                 </p>
               </div>
 
@@ -248,7 +248,7 @@ export default function UploadPage() {
                 <CardHeader>
                   <CardTitle>What Happens Next?</CardTitle>
                   <CardDescription>
-                    Here's what we'll do with your photo
+                    Here&apos;s what we&apos;ll do with your photo
                   </CardDescription>
                 </CardHeader>
                 <CardContent className="space-y-3">

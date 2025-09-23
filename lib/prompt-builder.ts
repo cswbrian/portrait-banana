@@ -128,9 +128,9 @@ export class PromptBuilder {
    * Build basic prompt for quick generation
    */
   private static buildBasicPrompt(context: PromptContext): string {
-    const styleDesc = this.STYLE_DESCRIPTIONS[context.style];
-    const bgDesc = this.BACKGROUND_DESCRIPTIONS[context.background];
-    const industry = this.INDUSTRY_CONTEXTS[context.industry || 'general'];
+    const styleDesc = this.STYLE_DESCRIPTIONS[context.style as keyof typeof this.STYLE_DESCRIPTIONS];
+    const bgDesc = this.BACKGROUND_DESCRIPTIONS[context.background as keyof typeof this.BACKGROUND_DESCRIPTIONS];
+    const industry = this.INDUSTRY_CONTEXTS[(context.industry || 'general') as keyof typeof this.INDUSTRY_CONTEXTS];
 
     return `Transform this photo into a professional portrait.
 
@@ -145,9 +145,9 @@ Generate a high-quality professional portrait suitable for business use.`;
    * Build detailed prompt for high-quality generation
    */
   private static buildDetailedPrompt(context: PromptContext): string {
-    const styleDesc = this.STYLE_DESCRIPTIONS[context.style];
-    const bgDesc = this.BACKGROUND_DESCRIPTIONS[context.background];
-    const industry = this.INDUSTRY_CONTEXTS[context.industry || 'general'];
+    const styleDesc = this.STYLE_DESCRIPTIONS[context.style as keyof typeof this.STYLE_DESCRIPTIONS];
+    const bgDesc = this.BACKGROUND_DESCRIPTIONS[context.background as keyof typeof this.BACKGROUND_DESCRIPTIONS];
+    const industry = this.INDUSTRY_CONTEXTS[(context.industry || 'general') as keyof typeof this.INDUSTRY_CONTEXTS];
 
     return `Transform this photo into a high-quality professional portrait.
 
@@ -167,7 +167,7 @@ COMPOSITION: ${context.composition}
 MOOD: ${context.mood}
 LIGHTING: ${context.lighting}
 
-${context.additionalRequirements.length > 0 
+${context.additionalRequirements && context.additionalRequirements.length > 0 
   ? `ADDITIONAL REQUIREMENTS:\n- ${context.additionalRequirements.join('\n- ')}`
   : ''
 }
@@ -179,8 +179,8 @@ Generate a professional portrait that maintains the person's likeness while crea
    * Build technical prompt for precise control
    */
   private static buildTechnicalPrompt(context: PromptContext): string {
-    const styleDesc = this.STYLE_DESCRIPTIONS[context.style];
-    const bgDesc = this.BACKGROUND_DESCRIPTIONS[context.background];
+    const styleDesc = this.STYLE_DESCRIPTIONS[context.style as keyof typeof this.STYLE_DESCRIPTIONS];
+    const bgDesc = this.BACKGROUND_DESCRIPTIONS[context.background as keyof typeof this.BACKGROUND_DESCRIPTIONS];
 
     return `PROFESSIONAL PORTRAIT GENERATION SPECIFICATIONS:
 
@@ -221,8 +221,8 @@ Generate a technically precise professional portrait meeting all specifications.
    * Build creative prompt for artistic generation
    */
   private static buildCreativePrompt(context: PromptContext): string {
-    const styleDesc = this.STYLE_DESCRIPTIONS[context.style];
-    const bgDesc = this.BACKGROUND_DESCRIPTIONS[context.background];
+    const styleDesc = this.STYLE_DESCRIPTIONS[context.style as keyof typeof this.STYLE_DESCRIPTIONS];
+    const bgDesc = this.BACKGROUND_DESCRIPTIONS[context.background as keyof typeof this.BACKGROUND_DESCRIPTIONS];
 
     return `Create an innovative professional portrait that balances creativity with business appropriateness.
 
@@ -279,15 +279,15 @@ Generate a creative professional portrait that stands out while maintaining busi
   static validateContext(context: PromptContext): { isValid: boolean; errors: string[] } {
     const errors: string[] = [];
 
-    if (!this.STYLE_DESCRIPTIONS[context.style]) {
+    if (!this.STYLE_DESCRIPTIONS[context.style as keyof typeof this.STYLE_DESCRIPTIONS]) {
       errors.push(`Invalid style: ${context.style}`);
     }
 
-    if (!this.BACKGROUND_DESCRIPTIONS[context.background]) {
+    if (!this.BACKGROUND_DESCRIPTIONS[context.background as keyof typeof this.BACKGROUND_DESCRIPTIONS]) {
       errors.push(`Invalid background: ${context.background}`);
     }
 
-    if (context.industry && !this.INDUSTRY_CONTEXTS[context.industry]) {
+    if (context.industry && !this.INDUSTRY_CONTEXTS[context.industry as keyof typeof this.INDUSTRY_CONTEXTS]) {
       errors.push(`Invalid industry: ${context.industry}`);
     }
 

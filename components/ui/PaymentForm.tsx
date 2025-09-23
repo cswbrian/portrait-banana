@@ -12,7 +12,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Alert, AlertDescription } from "@/components/ui/alert";
 import { Spinner } from "@/components/ui/spinner";
-import { PaymentFormProps } from "@/types";
+import { PaymentFormProps, PaymentResponse } from "@/types";
 import { CreditCard, Lock, CheckCircle, AlertCircle } from "lucide-react";
 
 // Load Stripe
@@ -20,7 +20,7 @@ const stripePromise = loadStripe(process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY 
 
 interface PaymentFormInnerProps {
   amount: number;
-  onSuccess: (payment: any) => void;
+  onSuccess: (payment: PaymentResponse) => void;
   onError: (error: string) => void;
   disabled?: boolean;
 }
@@ -81,7 +81,12 @@ function PaymentFormInner({ amount, onSuccess, onError, disabled }: PaymentFormI
         setError(confirmError.message || "Payment failed");
         onError(confirmError.message || "Payment failed");
       } else if (paymentIntent?.status === 'succeeded') {
-        onSuccess(paymentIntent);
+        const paymentResponse: PaymentResponse = {
+          id: paymentIntent.id,
+          status: 'succeeded',
+          clientSecret: paymentIntent.client_secret || undefined,
+        };
+        onSuccess(paymentResponse);
       }
     } catch (err) {
       const errorMessage = err instanceof Error ? err.message : "Payment failed";
@@ -162,18 +167,6 @@ export function PaymentForm({ amount, onSuccess, onError, disabled }: PaymentFor
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
-  // Check if Stripe publishable key is available
-  if (!process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY) {
-    return (
-      <Alert variant="destructive">
-        <AlertCircle className="h-4 w-4" />
-        <AlertDescription>
-          Stripe configuration missing. Please check your environment variables.
-        </AlertDescription>
-      </Alert>
-    );
-  }
-
   useEffect(() => {
     // Create payment intent when component mounts
     const createPaymentIntent = async () => {
@@ -196,7 +189,7 @@ export function PaymentForm({ amount, onSuccess, onError, disabled }: PaymentFor
         } else {
           setError(data.error || 'Failed to create payment intent');
         }
-      } catch (err) {
+      } catch {
         setError('Failed to initialize payment');
       } finally {
         setIsLoading(false);
@@ -205,6 +198,18 @@ export function PaymentForm({ amount, onSuccess, onError, disabled }: PaymentFor
 
     createPaymentIntent();
   }, [amount]);
+
+  // Check if Stripe publishable key is available
+  if (!process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY) {
+    return (
+      <Alert variant="destructive">
+        <AlertCircle className="h-4 w-4" />
+        <AlertDescription>
+          Stripe configuration missing. Please check your environment variables.
+        </AlertDescription>
+      </Alert>
+    );
+  }
 
   const options: StripeElementsOptions = {
     clientSecret: clientSecret || undefined,

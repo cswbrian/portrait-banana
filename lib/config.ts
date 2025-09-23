@@ -1,11 +1,12 @@
 import { env } from './env-validation';
+import { EnvConfig } from '@/types';
 
 /**
  * Legacy config wrapper for backward compatibility
  * @deprecated Use env from env-validation.ts instead
  */
 export const config = {
-  get: <K extends keyof any>(key: K) => env.get(key),
+  get: <K extends keyof EnvConfig>(key: K) => env.get(key),
   getAll: () => env.getAll(),
   isDevelopment: () => env.isDevelopment(),
   isProduction: () => env.isProduction(),

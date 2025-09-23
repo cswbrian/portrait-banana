@@ -5,7 +5,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Alert, AlertDescription } from "@/components/ui/alert";
 import { Badge } from "@/components/ui/badge";
-import { Download, CheckCircle, Share2, ArrowLeft, RefreshCw } from "lucide-react";
+import { Download, CheckCircle, Share2, RefreshCw } from "lucide-react";
 import Link from "next/link";
 import Image from "next/image";
 
@@ -16,7 +16,7 @@ interface DownloadPageProps {
   };
 }
 
-export default function DownloadPage({ searchParams }: DownloadPageProps) {
+export default function DownloadPage({}: DownloadPageProps) {
   const [downloadUrl, setDownloadUrl] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -40,7 +40,7 @@ export default function DownloadPage({ searchParams }: DownloadPageProps) {
         // Mock download URL - in production this would be a real image URL
         setDownloadUrl("https://via.placeholder.com/2048x2048/3b82f6/ffffff?text=Your+Professional+Portrait");
         
-      } catch (err) {
+      } catch {
         setError("Failed to generate your portrait. Please contact support.");
       } finally {
         setIsLoading(false);
@@ -64,7 +64,7 @@ export default function DownloadPage({ searchParams }: DownloadPageProps) {
       document.body.appendChild(link);
       link.click();
       document.body.removeChild(link);
-    } catch (err) {
+    } catch {
       setError("Download failed. Please try again.");
     } finally {
       setIsDownloading(false);
@@ -79,7 +79,7 @@ export default function DownloadPage({ searchParams }: DownloadPageProps) {
           text: "Check out my AI-generated professional portrait!",
           url: window.location.href,
         });
-      } catch (err) {
+      } catch {
         // Fallback to copying URL to clipboard
         navigator.clipboard.writeText(window.location.href);
       }
@@ -251,7 +251,7 @@ export default function DownloadPage({ searchParams }: DownloadPageProps) {
           {/* Next Steps */}
           <Card className="mb-8">
             <CardHeader>
-              <CardTitle>What's Next?</CardTitle>
+              <CardTitle>What&apos;s Next?</CardTitle>
               <CardDescription>
                 Make the most of your professional portrait
               </CardDescription>

@@ -2,6 +2,7 @@
 
 import { useCallback, useState } from "react";
 import { useDropzone } from "react-dropzone";
+import Image from "next/image";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Alert, AlertDescription } from "@/components/ui/alert";
@@ -158,11 +159,12 @@ export function PhotoUpload({
           ) : (
             <div className="space-y-4">
               <div className="relative">
-                <div className="aspect-square max-w-xs sm:max-w-md mx-auto rounded-lg overflow-hidden bg-gray-100">
-                  <img
+                <div className="aspect-square max-w-xs sm:max-w-md mx-auto rounded-lg overflow-hidden bg-gray-100 relative">
+                  <Image
                     src={preview}
                     alt="Uploaded image preview"
-                    className="w-full h-full object-cover"
+                    fill
+                    className="object-cover"
                   />
                 </div>
                 <Button
@@ -199,7 +201,7 @@ export function PhotoUpload({
 // Helper function to get image dimensions
 function getImageDimensions(file: File): Promise<{ width: number; height: number }> {
   return new Promise((resolve, reject) => {
-    const img = new Image();
+    const img = new window.Image();
     img.onload = () => {
       resolve({ width: img.naturalWidth, height: img.naturalHeight });
     };

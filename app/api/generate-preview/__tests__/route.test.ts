@@ -1,5 +1,11 @@
 import { POST, GET } from '../route';
 import { NextRequest } from 'next/server';
+import { RateLimitService } from '@/lib/rate-limit';
+import { ValidationUtils } from '@/lib/ai-utils';
+import { AIResponseHandler } from '@/lib/ai-response-handler';
+import { PromptBuilder } from '@/lib/prompt-builder';
+import { aiService } from '@/lib/ai-service';
+import { WatermarkService } from '@/lib/watermark';
 
 // Mock the AI service and utilities
 jest.mock('@/lib/ai-service', () => ({
@@ -70,7 +76,6 @@ describe('/api/generate-preview', () => {
     });
 
     it('should return 429 for rate limit exceeded', async () => {
-      const { RateLimitService } = require('@/lib/rate-limit');
       RateLimitService.checkRateLimit.mockReturnValue({
         allowed: false,
         remaining: 0,
@@ -95,8 +100,6 @@ describe('/api/generate-preview', () => {
     });
 
     it('should return 400 for validation errors', async () => {
-      const { RateLimitService } = require('@/lib/rate-limit');
-      const { ValidationUtils } = require('@/lib/ai-utils');
 
       RateLimitService.checkRateLimit.mockReturnValue({
         allowed: true,
@@ -127,12 +130,6 @@ describe('/api/generate-preview', () => {
     });
 
     it('should successfully generate preview', async () => {
-      const { RateLimitService } = require('@/lib/rate-limit');
-      const { ValidationUtils } = require('@/lib/ai-utils');
-      const { PromptBuilder } = require('@/lib/prompt-builder');
-      const { aiService } = require('@/lib/ai-service');
-      const { AIResponseHandler } = require('@/lib/ai-utils');
-      const { WatermarkService } = require('@/lib/watermark');
 
       RateLimitService.checkRateLimit.mockReturnValue({
         allowed: true,
@@ -199,10 +196,6 @@ describe('/api/generate-preview', () => {
     });
 
     it('should handle AI service errors', async () => {
-      const { RateLimitService } = require('@/lib/rate-limit');
-      const { ValidationUtils } = require('@/lib/ai-utils');
-      const { PromptBuilder } = require('@/lib/prompt-builder');
-      const { aiService } = require('@/lib/ai-service');
 
       RateLimitService.checkRateLimit.mockReturnValue({
         allowed: true,

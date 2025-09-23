@@ -33,7 +33,7 @@ export async function POST(request: NextRequest) {
         message: 'All rate limits cleared',
       });
     }
-  } catch (error) {
+  } catch {
     return NextResponse.json(
       { error: 'Failed to clear rate limits' },
       { status: 500 }

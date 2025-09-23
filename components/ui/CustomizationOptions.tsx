@@ -1,7 +1,6 @@
 "use client";
 
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { CustomizationOptions as CustomizationOptionsType } from "@/types";
 import { CUSTOMIZATION_OPTIONS } from "@/lib/constants";
@@ -123,7 +122,7 @@ export function CustomizationOptions({
                 <div className="aspect-video rounded-lg bg-gradient-to-br from-gray-50 to-gray-100 flex items-center justify-center">
                   <div className="text-center">
                     <div className={`w-16 h-16 rounded-full mx-auto mb-2 ${
-                      style.id === 'formal' ? 'bg-gray-800' : 'bg-gray-400'
+                      style.id === 'professional' ? 'bg-gray-800' : 'bg-gray-400'
                     }`}></div>
                     <span className="text-xs text-gray-600 font-medium">
                       {style.name} Attire

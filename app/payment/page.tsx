@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
+import Image from "next/image";
 import { PaymentForm } from "@/components/ui/PaymentForm";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
@@ -39,12 +40,12 @@ export default function PaymentPage() {
       setUploadedImage(parsedImage);
       setCustomization(parsedCustomization);
       setGeneration(parsedGeneration);
-    } catch (err) {
+    } catch {
       setError("Invalid data. Please start over.");
     }
   }, []);
 
-  const handlePaymentSuccess = async (payment: any) => {
+  const handlePaymentSuccess = async (payment: { id: string; status: string }) => {
     setIsProcessing(true);
     
     try {
@@ -60,7 +61,7 @@ export default function PaymentPage() {
       
       // Redirect to download page
       router.push("/download");
-    } catch (err) {
+    } catch {
       setError("Payment succeeded but failed to process. Please contact support.");
     } finally {
       setIsProcessing(false);
@@ -207,11 +208,12 @@ export default function PaymentPage() {
                 </CardHeader>
                 <CardContent className="space-y-4">
                   <div className="flex items-center space-x-3">
-                    <div className="aspect-square w-16 rounded-lg overflow-hidden bg-gray-100">
-                      <img
+                    <div className="aspect-square w-16 rounded-lg overflow-hidden bg-gray-100 relative">
+                      <Image
                         src={generation.imageUrl}
                         alt="Portrait preview"
-                        className="w-full h-full object-cover"
+                        fill
+                        className="object-cover"
                       />
                     </div>
                     <div className="flex-1">

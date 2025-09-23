@@ -7,7 +7,7 @@ import {
 } from '../ai-utils';
 import { PromptBuilder } from '../prompt-builder';
 import { AIResponseHandler } from '../ai-response-handler';
-import { CustomizationOptions } from '@/types';
+import { CustomizationOptions, UploadedImage } from '@/types';
 
 // Mock File and Image for testing
 const createMockFile = (name: string, type: string, size: number): File => {
@@ -16,7 +16,7 @@ const createMockFile = (name: string, type: string, size: number): File => {
   return file;
 };
 
-const createMockImage = (width: number, height: number, size: number): any => ({
+const createMockImage = (width: number, height: number, size: number): UploadedImage => ({
   id: 'test-id',
   file: createMockFile('test.jpg', 'image/jpeg', size),
   preview: 'blob:test',

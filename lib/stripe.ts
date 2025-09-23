@@ -3,7 +3,7 @@ import { config } from './config';
 
 // Initialize Stripe with your secret key
 export const stripe = new Stripe(config.get('STRIPE_SECRET_KEY'), {
-  apiVersion: '2024-12-18.acacia', // Use the latest API version
+  apiVersion: '2025-08-27.basil', // Use the latest API version
   typescript: true,
 });
 

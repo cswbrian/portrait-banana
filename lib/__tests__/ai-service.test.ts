@@ -1,5 +1,4 @@
 import { aiService } from '../ai-service';
-import { config } from '../config';
 
 // Mock the config module
 jest.mock('../config', () => ({
@@ -35,10 +34,6 @@ describe('AIService', () => {
 
   describe('Prompt Building', () => {
     it('should build professional prompt correctly', () => {
-      const options = {
-        background: 'office',
-        style: 'professional',
-      };
       
       const mockFile = new File(['test'], 'test.jpg', { type: 'image/jpeg' });
       const mockImage = {

@@ -82,7 +82,7 @@ export interface ApiError {
   code: string;
   message: string;
   status: number;
-  details?: any;
+  details?: Record<string, unknown>;
 }
 
 // AI Service types
@@ -153,7 +153,7 @@ export interface PaymentFormProps {
 }
 
 // API Response types
-export interface ApiResponse<T = any> {
+export interface ApiResponse<T = unknown> {
   success: boolean;
   data?: T;
   error?: ApiError;

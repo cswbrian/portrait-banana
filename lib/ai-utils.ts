@@ -1,5 +1,5 @@
 import { UploadedImage, CustomizationOptions } from '@/types';
-import { GENERATION_CONFIG, AI_MODELS } from './constants';
+import { GENERATION_CONFIG } from './constants';
 
 /**
  * AI Service Integration Utilities
@@ -385,7 +385,7 @@ export class ValidationUtils {
   /**
    * Validate API configuration
    */
-  static validateAIConfig(config: any): ValidationResult {
+  static validateAIConfig(config: { apiKey?: string; model?: string; baseUrl?: string; maxRetries?: number }): ValidationResult {
     const errors: string[] = [];
     const warnings: string[] = [];
 
@@ -401,7 +401,7 @@ export class ValidationUtils {
       errors.push('Base URL is required');
     }
 
-    if (config.maxRetries < 0) {
+    if (config.maxRetries !== undefined && config.maxRetries < 0) {
       warnings.push('Max retries should be at least 0 (0 disables retries for cost savings)');
     }
 
@@ -420,7 +420,7 @@ export class ErrorUtils {
   /**
    * Parse AI service errors
    */
-  static parseAIError(error: any): { code: string; message: string; retryable: boolean } {
+  static parseAIError(error: Error | { message?: string; code?: string }): { code: string; message: string; retryable: boolean } {
     if (error.message?.includes('API key')) {
       return {
         code: 'INVALID_API_KEY',
@@ -463,7 +463,7 @@ export class ErrorUtils {
   /**
    * Determine if error is retryable
    */
-  static isRetryableError(error: any): boolean {
+  static isRetryableError(error: Error | { message?: string; code?: string }): boolean {
     const parsed = this.parseAIError(error);
     return parsed.retryable;
   }
@@ -471,7 +471,7 @@ export class ErrorUtils {
   /**
    * Get user-friendly error message
    */
-  static getUserFriendlyMessage(error: any): string {
+  static getUserFriendlyMessage(error: Error | { message?: string; code?: string }): string {
     const parsed = this.parseAIError(error);
 
     const userMessages: Record<string, string> = {
@@ -534,11 +534,3 @@ export class MetricsUtils {
   }
 }
 
-// Export utility classes
-export {
-  PromptUtils,
-  ImageUtils,
-  ValidationUtils,
-  ErrorUtils,
-  MetricsUtils,
-};

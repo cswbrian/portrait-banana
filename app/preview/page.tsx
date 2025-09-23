@@ -8,8 +8,8 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Alert, AlertDescription } from "@/components/ui/alert";
 import { Badge } from "@/components/ui/badge";
 import { UploadedImage, CustomizationOptions as CustomizationOptionsType, GenerationResponse } from "@/types";
-import { ArrowLeft, ArrowRight, Eye, CreditCard, AlertCircle, CheckCircle } from "lucide-react";
-import { LoadingCard, ProgressSteps, ImageSkeleton } from "@/components/ui/LoadingStates";
+import { ArrowLeft, Eye, AlertCircle, CheckCircle } from "lucide-react";
+import { LoadingCard, ProgressSteps } from "@/components/ui/LoadingStates";
 import Link from "next/link";
 
 // Helper function to convert File to base64
@@ -61,7 +61,7 @@ export default function PreviewPage() {
         
         // Start generation process
         generatePreview(parsedImage, parsedCustomization);
-      } catch (err) {
+      } catch {
         setError("Invalid data. Please start over.");
       } finally {
         setIsInitializing(false);
@@ -71,7 +71,7 @@ export default function PreviewPage() {
     initializePage();
   }, []);
 
-  const generatePreview = async (image: any, customizations: CustomizationOptionsType) => {
+  const generatePreview = async (image: UploadedImage, customizations: CustomizationOptionsType) => {
     setLoading(true);
     setIsGenerating(true);
     setError(null);
@@ -343,7 +343,7 @@ export default function PreviewPage() {
                   Preview Your Portrait
                 </h1>
                 <p className="text-lg text-gray-600 mb-6">
-                  Here's your AI-generated professional portrait. Review it and proceed to payment to download the full version.
+                  Here&apos;s your AI-generated professional portrait. Review it and proceed to payment to download the full version.
                 </p>
               </div>
 
@@ -427,7 +427,7 @@ export default function PreviewPage() {
               {/* What's Included */}
               <Card>
                 <CardHeader>
-                  <CardTitle>What's Included</CardTitle>
+                  <CardTitle>What&apos;s Included</CardTitle>
                   <CardDescription>
                     Your professional portrait package
                   </CardDescription>
@@ -462,7 +462,7 @@ export default function PreviewPage() {
                   <h4 className="font-medium text-blue-900 mb-2">Next Steps</h4>
                   <div className="space-y-2 text-sm text-blue-700">
                     <p>1. Review your portrait above</p>
-                    <p>2. Click "Pay & Download Full Version"</p>
+                    <p>2. Click &quot;Pay &amp; Download Full Version&quot;</p>
                     <p>3. Complete secure payment</p>
                     <p>4. Download your professional portrait</p>
                   </div>

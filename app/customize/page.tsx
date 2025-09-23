@@ -2,11 +2,12 @@
 
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
+import Image from "next/image";
 import { CustomizationOptions } from "@/components/ui/CustomizationOptions";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Alert, AlertDescription } from "@/components/ui/alert";
-import { CustomizationOptions as CustomizationOptionsType, UploadedImage } from "@/types";
+import { CustomizationOptions as CustomizationOptionsType } from "@/types";
 
 // Type for serialized image data from session storage
 interface SerializedImage {
@@ -23,7 +24,7 @@ interface SerializedImage {
   file?: File; // Optional for backward compatibility
 }
 import { ArrowLeft, ArrowRight, Palette, AlertCircle } from "lucide-react";
-import { LoadingCard, ProgressSteps, ImageSkeleton } from "@/components/ui/LoadingStates";
+import { LoadingCard } from "@/components/ui/LoadingStates";
 import Link from "next/link";
 
 export default function CustomizePage() {
@@ -53,7 +54,7 @@ export default function CustomizePage() {
 
         const parsedImage = JSON.parse(storedImage);
         setUploadedImage(parsedImage);
-      } catch (err) {
+      } catch {
         setError("Invalid image data. Please upload an image again.");
       } finally {
         setIsLoading(false);
@@ -80,7 +81,7 @@ export default function CustomizePage() {
       // Store customization in session storage
       sessionStorage.setItem("customization", JSON.stringify(customization));
       router.push("/preview");
-    } catch (error) {
+    } catch {
       setError("Failed to save customization. Please try again.");
       setIsProcessing(false);
     }
@@ -210,7 +211,7 @@ export default function CustomizePage() {
                   Customize Your Portrait
                 </h1>
                 <p className="text-lg text-gray-600 mb-6">
-                  Choose your preferred background and style. We'll transform your photo to match your professional needs.
+                  Choose your preferred background and style. We&apos;ll transform your photo to match your professional needs.
                 </p>
               </div>
 
@@ -227,15 +228,16 @@ export default function CustomizePage() {
                 <CardHeader>
                   <CardTitle>Your Photo</CardTitle>
                   <CardDescription>
-                    This is the image we'll transform into a professional portrait
+                    This is the image we&apos;ll transform into a professional portrait
                   </CardDescription>
                 </CardHeader>
                 <CardContent>
-                  <div className="aspect-square rounded-lg overflow-hidden bg-gray-100">
-                    <img
+                  <div className="aspect-square rounded-lg overflow-hidden bg-gray-100 relative">
+                    <Image
                       src={uploadedImage.preview}
                       alt="Uploaded image preview"
-                      className="w-full h-full object-cover"
+                      fill
+                      className="object-cover"
                     />
                   </div>
                   <div className="mt-4 text-sm text-gray-600">
@@ -250,7 +252,7 @@ export default function CustomizePage() {
                 <CardHeader>
                   <CardTitle>What Happens Next?</CardTitle>
                   <CardDescription>
-                    Here's what we'll do with your selections
+                    Here&apos;s what we&apos;ll do with your selections
                   </CardDescription>
                 </CardHeader>
                 <CardContent className="space-y-3">

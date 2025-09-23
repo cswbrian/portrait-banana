@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { aiService } from '@/lib/ai-service';
-import { ValidationUtils, MetricsUtils } from '@/lib/ai-utils';
+import { MetricsUtils } from '@/lib/ai-utils';
 import { AIResponseHandler } from '@/lib/ai-response-handler';
 import { PromptBuilder } from '@/lib/prompt-builder';
 import { WatermarkService } from '@/lib/watermark';
@@ -80,7 +80,7 @@ export async function POST(request: NextRequest) {
 
     // Parse request body
     const body: PreviewGenerationRequest = await request.json();
-    const { image, options, prompt, useCase = 'general' } = body;
+    const { image, options, prompt } = body;
 
     // Validate request
     if (!image || !options) {

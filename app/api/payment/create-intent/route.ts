@@ -1,6 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { createPaymentIntent, validatePaymentAmount } from '@/lib/stripe';
-import { PRICING_CONFIG } from '@/lib/constants';
 
 export async function POST(request: NextRequest) {
   try {

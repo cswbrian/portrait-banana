@@ -159,7 +159,7 @@ class EnvValidation {
 
   public getCloudStorageConfig(): {
     provider: 'aws' | 'cloudinary' | 'none';
-    config: any;
+    config: Record<string, string>;
   } {
     const hasAws = !!(this.config.AWS_ACCESS_KEY_ID && this.config.AWS_SECRET_ACCESS_KEY);
     const hasCloudinary = !!(this.config.CLOUDINARY_CLOUD_NAME && this.config.CLOUDINARY_API_KEY);
@@ -168,10 +168,10 @@ class EnvValidation {
       return {
         provider: 'aws',
         config: {
-          accessKeyId: this.config.AWS_ACCESS_KEY_ID,
-          secretAccessKey: this.config.AWS_SECRET_ACCESS_KEY,
+          accessKeyId: this.config.AWS_ACCESS_KEY_ID || '',
+          secretAccessKey: this.config.AWS_SECRET_ACCESS_KEY || '',
           region: this.config.AWS_REGION || 'us-east-1',
-          bucket: this.config.AWS_S3_BUCKET,
+          bucket: this.config.AWS_S3_BUCKET || '',
         },
       };
     }
@@ -180,9 +180,9 @@ class EnvValidation {
       return {
         provider: 'cloudinary',
         config: {
-          cloudName: this.config.CLOUDINARY_CLOUD_NAME,
-          apiKey: this.config.CLOUDINARY_API_KEY,
-          apiSecret: this.config.CLOUDINARY_API_SECRET,
+          cloudName: this.config.CLOUDINARY_CLOUD_NAME || '',
+          apiKey: this.config.CLOUDINARY_API_KEY || '',
+          apiSecret: this.config.CLOUDINARY_API_SECRET || '',
         },
       };
     }
@@ -249,7 +249,8 @@ class EnvValidation {
     
     try {
       // This will throw if validation fails
-      this.config;
+      // Validate config access
+      void this.config;
       console.log('✅ Environment variables validated successfully');
       
       // Log configuration (without sensitive data)

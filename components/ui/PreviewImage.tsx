@@ -2,6 +2,7 @@
 
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
+import Image from "next/image";
 import { Badge } from "@/components/ui/badge";
 import { Spinner } from "@/components/ui/spinner";
 import { Alert, AlertDescription } from "@/components/ui/alert";
@@ -116,11 +117,12 @@ export function PreviewImage({
         <div className="space-y-4">
           {/* Image Display */}
           <div className="relative">
-            <div className="aspect-square rounded-lg overflow-hidden bg-gray-100">
-              <img
+            <div className="aspect-square rounded-lg overflow-hidden bg-gray-100 relative">
+              <Image
                 src={imageUrl}
                 alt="Generated professional portrait"
-                className="w-full h-full object-cover"
+                fill
+                className="object-cover"
               />
             </div>
             

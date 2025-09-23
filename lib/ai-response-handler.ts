@@ -80,7 +80,7 @@ export class AIResponseHandler {
       const metadata = this.extractMetadata(response, metrics, validation);
 
       // Determine quality level
-      const quality = this.assessQuality(metadata, options);
+      const quality = this.assessQuality(metadata);
 
       return {
         success: true,
@@ -193,8 +193,7 @@ export class AIResponseHandler {
    * Assess image quality based on various factors
    */
   private static assessQuality(
-    metadata: Omit<ResponseMetadata, 'quality'>,
-    options: ValidationOptions
+    metadata: Omit<ResponseMetadata, 'quality'>
   ): 'high' | 'medium' | 'low' {
     let score = 0;
 
@@ -292,7 +291,7 @@ export class AIResponseHandler {
   /**
    * Create download URL for processed image (Node.js compatible)
    */
-  static createDownloadUrl(imageData: string, filename: string = 'portrait.jpg'): string {
+  static createDownloadUrl(imageData: string): string {
     // For server-side, return a data URL instead of blob URL
     if (typeof window === 'undefined') {
       return `data:image/jpeg;base64,${imageData}`;

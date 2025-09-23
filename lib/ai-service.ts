@@ -69,7 +69,6 @@ class AIService {
         }
         
         const generationTime = Date.now() - startTime;
-        const cost = this.calculateCost(request.size);
         
         return {
           success: true,
@@ -206,7 +205,7 @@ class AIService {
         }
         // Last resort: try to read as buffer
         else {
-          const buffer = Buffer.from(file as any);
+          const buffer = Buffer.from(file as unknown as ArrayBuffer);
           return buffer.toString('base64');
         }
       } catch (error) {
@@ -251,7 +250,7 @@ class AIService {
         
         if (content.parts) {
           // Look for image data in the response parts
-          const imagePart = content.parts.find((part: any) => 
+          const imagePart = content.parts.find((part: { inlineData?: { data?: string } }) => 
             part.inlineData
           );
           
