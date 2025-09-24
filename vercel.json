@@ -4,5 +4,5 @@
       "maxDuration": 30
     }
   },
-  "buildCommand": "npm install --include=optional && npm run build"
+  "installCommand": "pnpm install --frozen-lockfile"
 }
